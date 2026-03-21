@@ -187,9 +187,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Start simulator
-        uses: futureware-tech/simulator-action@v4
+        uses: futureware-tech/simulator-action@v5
         with:
-          model: iPhone 16
+          model: 'iPhone 16'
+          os_version: '>= 26.0'
+          wait_for_boot: true
+          erase_before_boot: true
+          boot_timeout_seconds: 360
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_OVERRIDE || vars.FLUTTER_VERSION }}
