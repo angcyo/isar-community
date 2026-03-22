@@ -1,3 +1,14 @@
+## 3.3.1
+
+### Updates
+- Migrated `source_gen` to `^4.0.1` and `build` to `^4.0.0`
+- Updated `very_good_analysis` to `^10.0.0`
+- Updated `test` to `^1.26.3`
+- Added `platforms` configuration to `isar_community`, `isar_community_flutter_libs`, and `isar_community_generator` pubspecs
+
+### Fixes
+- Fixed lint and formatting issues across the codebase
+
 ## 3.3.0
 
 ### Fixes
