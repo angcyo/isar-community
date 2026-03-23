@@ -27,16 +27,17 @@ extension ClassElementX on ClassElement {
         collectionAnnotation?.ignore ?? embeddedAnnotation!.ignore;
     final accessors = [...setters, ...getters];
     return [
-      ...accessors.mapNotNull((e) => e.variable),
-      if (collectionAnnotation?.inheritance ?? embeddedAnnotation!.inheritance)
-        for (final InterfaceType supertype in allSupertypes) ...[
-          if (!supertype.isDartCoreObject)
-            ...[
-              ...supertype.getters,
-              ...supertype.setters,
-            ].mapNotNull((e) => e.variable),
-        ],
-    ]
+          ...accessors.mapNotNull((e) => e.variable),
+          if (collectionAnnotation?.inheritance ??
+              embeddedAnnotation!.inheritance)
+            for (final InterfaceType supertype in allSupertypes) ...[
+              if (!supertype.isDartCoreObject)
+                ...[
+                  ...supertype.getters,
+                  ...supertype.setters,
+                ].mapNotNull((e) => e.variable),
+            ],
+        ]
         .where(
           (PropertyInducingElement e) =>
               e.isPublic &&
@@ -100,8 +101,9 @@ extension PropertyElementX on PropertyInducingElement {
           final indexTypeField = c.getField('type')!;
           IndexType? indexType;
           if (!indexTypeField.isNull) {
-            final indexTypeIndex =
-                indexTypeField.getField('index')!.toIntValue()!;
+            final indexTypeIndex = indexTypeField
+                .getField('index')!
+                .toIntValue()!;
             indexType = IndexType.values[indexTypeIndex];
           }
           composite.add(

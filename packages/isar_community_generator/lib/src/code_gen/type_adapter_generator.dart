@@ -9,7 +9,8 @@ String _prepareSerialize(
 ) {
   var code = '';
   if (nullable) {
-    code += '''
+    code +=
+        '''
       {
         final value = $value;
         if (value != null) {''';
@@ -31,13 +32,15 @@ String _prepareSerializeList(
 ]) {
   var code = '';
   if (nullable) {
-    code += '''
+    code +=
+        '''
       {
         final list = $value;
         if (list != null) {''';
     value = 'list';
   }
-  code += '''
+  code +=
+      '''
     bytesCount += 3 + $value.length * 3;
     {
       ${prepare ?? ''}
@@ -58,7 +61,8 @@ String _prepareSerializeList(
 }
 
 String generateEstimateSerialize(ObjectInfo object) {
-  var code = '''
+  var code =
+      '''
     int ${object.estimateSizeName}(
       ${object.dartName} object,
       List<int> offsets,
@@ -145,7 +149,8 @@ String generateEstimateSerialize(ObjectInfo object) {
 }
 
 String generateSerialize(ObjectInfo object) {
-  var code = '''
+  var code =
+      '''
   void ${object.serializeName}(
     ${object.dartName} object, 
     IsarWriter writer,
@@ -190,7 +195,8 @@ String generateSerialize(ObjectInfo object) {
         code += 'writer.writeString(offsets[$i], $value);';
         break;
       case IsarType.object:
-        code += '''
+        code +=
+            '''
           writer.writeObject<${property.typeClassName}>(
             offsets[$i],
             allOffsets,
@@ -223,7 +229,8 @@ String generateSerialize(ObjectInfo object) {
         code += 'writer.writeStringList(offsets[$i], $value);';
         break;
       case IsarType.objectList:
-        code += '''
+        code +=
+            '''
           writer.writeObjectList<${property.typeClassName}>(
             offsets[$i],
             allOffsets,
@@ -238,7 +245,8 @@ String generateSerialize(ObjectInfo object) {
 }
 
 String generateDeserialize(ObjectInfo object) {
-  var code = '''
+  var code =
+      '''
     ${object.dartName} ${object.deserializeName}(
       Id id,
       IsarReader reader,
@@ -283,7 +291,8 @@ String generateDeserialize(ObjectInfo object) {
 }
 
 String generateDeserializeProp(ObjectInfo object) {
-  var code = '''
+  var code =
+      '''
     P ${object.deserializePropName}<P>(
       IsarReader reader,
       int propertyId,
@@ -334,8 +343,9 @@ String _deserializeProperty(
 
   if (property.isEnum) {
     if (property.isarType.isList) {
-      final elDefault =
-          !property.elementNullable ? '?? ${property.defaultEnumElement}' : '';
+      final elDefault = !property.elementNullable
+          ? '?? ${property.defaultEnumElement}'
+          : '';
       return '$deser?.map((e) => ${property.valueEnumMapName(object)}[e] '
           '$elDefault).toList() $defaultValue';
     } else {
@@ -349,8 +359,8 @@ String _deserializeProperty(
 String _deserialize(ObjectProperty property, String propertyOffset) {
   final orNull =
       property.nullable || property.userDefaultValue != null || property.isEnum
-          ? 'OrNull'
-          : '';
+      ? 'OrNull'
+      : '';
   final orElNull = property.elementNullable ? 'OrNull' : '';
 
   switch (property.isarType) {
@@ -431,7 +441,8 @@ String generateAttach(ObjectInfo object) {
 
   for (final link in object.links) {
     // ignore: leading_newlines_in_multiline_strings - template string requires leading newline for proper formatting
-    code += '''object.${link.dartName}.attach(
+    code +=
+        '''object.${link.dartName}.attach(
       col,
       col.isar.collection<${link.targetCollectionDartName}>(),
       r'${link.isarName}',
